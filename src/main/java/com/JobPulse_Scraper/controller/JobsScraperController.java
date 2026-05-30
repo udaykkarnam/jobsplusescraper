@@ -18,7 +18,7 @@ public class JobsScraperController {
     public String JobsScraperDoneWelcomePage(){
 
         log.info("Welcome to JobsScraperController");
-        log.info("where we make jobsearch easy");
+
         return "Welcome to Jobs Scraper !";
     }
 

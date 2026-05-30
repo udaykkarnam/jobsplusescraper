@@ -22,4 +22,12 @@ public class JobsScraperController {
         return "Welcome to Jobs Scraper !";
     }
 
+
+    @GetMapping("/searcheasy")
+    public String weMakeJobsSearchEasy(){
+
+
+        log.info("where we make jobsearch easy");
+        return "Welcome to Jobs Scraper !";
+    }
 }

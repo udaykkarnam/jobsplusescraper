@@ -67,9 +67,8 @@ public class JobsScraperService {
 
 
                         boolean skipJob =
-                                title != null
-                                        && title.toLowerCase()
-                                        .contains("java full stack developer");
+                                title.toLowerCase()
+                                .contains("java full stack developer");
 
                         String company =
                                 getTextSafely(job.locator(".comp-name"));

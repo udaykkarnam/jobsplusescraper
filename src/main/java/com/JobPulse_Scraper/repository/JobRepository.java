@@ -10,5 +10,5 @@ public interface JobRepository extends JpaRepository<Job, Long> {
 
     boolean existsByJobUrl(String jobUrl);
 
-    List<Job> findByCreatedAtAfter(LocalDateTime time);
+
 }

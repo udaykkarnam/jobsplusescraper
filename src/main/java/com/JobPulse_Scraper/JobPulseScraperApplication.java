@@ -1,9 +1,9 @@
 package com.JobPulse_Scraper;
 
-import com.JobPulse_Scraper.service.JobsScraperService;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Component;
+
 
 
 @SpringBootApplication

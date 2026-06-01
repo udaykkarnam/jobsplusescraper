@@ -34,7 +34,7 @@ public class JobsScraperService {
                             .setHeadless(false));
 
             Page page = browser.newPage();
-            for (int pageNumber = 1; pageNumber <= 100; pageNumber++) {
+            for (int pageNumber = 0; pageNumber <= 100; pageNumber++) {
 
                 String url =
                         "https://www.naukri.com/spring-boot-developer-jobs-" + pageNumber;
@@ -216,9 +216,16 @@ public class JobsScraperService {
                                 && postedWithin2Days
                                 && !skipJob) {
 
+                            boolean alreadyExists =
+                                    repository.existsByJobUrl(jobUrl);
+
+                            if (alreadyExists) {
+
+                                log.info("DUPLICATE JOB SKIPPED : {}", title);
+                                continue;
+                            }
+
                             log.info("------------------------------------------------------------");
-
-
 
                             log.info("""
         TITLE = {}
@@ -245,28 +252,16 @@ public class JobsScraperService {
                                     .earlyApplicant(earlyApplicant)
                                     .jobUrl(jobUrl)
                                     .createdAt(LocalDateTime.now())
-
                                     .build();
 
-                            boolean alreadyExists =
-                                    repository.existsByJobUrl(jobUrl);
+                            repository.save(entity);
 
-                            if (!alreadyExists) {
+                            savedCount++;
 
-                                repository.save(entity);
-
-                                savedCount++;
-
-                                log.info("JOB SAVED : " + title);
-
-                            } else {
-
-                                log.info("DUPLICATE JOB SKIPPED : " + title);
-                                log.info("#######################################################################");
-
-                            }
+                            log.info("JOB SAVED : {}", title);
 
 
+                            log.info("##########################################################");
                         }
 
                     } catch (Exception e) {
@@ -291,11 +286,16 @@ public class JobsScraperService {
 
             browser.close();
 
-            System.out.println();
-            System.out.println("=================================");
-            System.out.println("TOTAL URLS SAVED = " + savedCount);
-            System.out.println("=================================");
+            //System.out.println();
+            //System.out.println("=================================");
+            //System.out.println("TOTAL URLS SAVED = " + savedCount);
+            //System.out.println("=================================");
 
+            log.info(" ");
+            log.info("==================================");
+            log.info("TOTAL URLS SAVED = " + savedCount);
+            log.info("==================================");
+            log.info(" ");
             log.info("SCRAPING COMPLETED");
 
         } catch (Exception e) {

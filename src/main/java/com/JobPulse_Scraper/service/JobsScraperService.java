@@ -34,7 +34,7 @@ public class JobsScraperService {
                             .setHeadless(false));
 
             Page page = browser.newPage();
-            for (int pageNumber = 0; pageNumber <= 100; pageNumber++) {
+            for (int pageNumber = 0; pageNumber <= 200; pageNumber++) {
 
                 String url =
                         "https://www.naukri.com/spring-boot-developer-jobs-" + pageNumber;

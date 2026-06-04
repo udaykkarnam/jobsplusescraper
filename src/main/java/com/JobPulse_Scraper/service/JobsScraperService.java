@@ -4,7 +4,8 @@ package com.JobPulse_Scraper.service;
 import com.JobPulse_Scraper.entity.Job;
 import com.JobPulse_Scraper.repository.JobRepository;
 import com.microsoft.playwright.*;
-import com.microsoft.playwright.options.LoadState;
+
+import com.microsoft.playwright.options.WaitUntilState;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -34,7 +35,9 @@ public class JobsScraperService {
                             .setHeadless(false));
 
             Page page = browser.newPage();
-            for (int pageNumber = 0; pageNumber <= 200; pageNumber++) {
+
+
+            for (int pageNumber = 1; pageNumber <= 200; pageNumber++) {
 
                 String url =
                         "https://www.naukri.com/spring-boot-developer-jobs-" + pageNumber;
@@ -42,11 +45,28 @@ public class JobsScraperService {
 
                 System.out.println("OPENING PAGE : " + pageNumber);
 
-                page.navigate(url);
+                page.navigate(
+                        url,
+                        new Page.NavigateOptions()
+                                .setWaitUntil(WaitUntilState.DOMCONTENTLOADED)
+                                .setTimeout(60000)
+                );
+
+                System.out.println("Title: " + page.title());
+                //System.out.println("Current URL: " + page.url());
 
 
-                page.waitForLoadState(LoadState.NETWORKIDLE);
-                page.waitForTimeout(2000);
+                try {
+                    page.waitForSelector(
+                            ".srp-jobtuple-wrapper",
+                            new Page.WaitForSelectorOptions().setTimeout(10000));
+
+                } catch (PlaywrightException e) {
+                    log.warn("No jobs found on page {}", pageNumber);
+                    continue;
+                }
+
+                page.waitForTimeout(3000);
 
                 Locator jobs =
                         page.locator(".srp-jobtuple-wrapper");

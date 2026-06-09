@@ -31,6 +31,6 @@ public class JobsScraperController {
 
 
         log.info("where we make jobsearch easy");
-        return "Welcome to Jobs Scraper !";
+        return " Welcome to Jobs Scraper !";
     }
 }

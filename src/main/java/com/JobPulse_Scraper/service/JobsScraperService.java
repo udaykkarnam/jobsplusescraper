@@ -51,11 +51,6 @@ public class JobsScraperService {
                                 .setWaitUntil(WaitUntilState.DOMCONTENTLOADED)
                                 .setTimeout(60000)
                 );
-
-                System.out.println("Title: " + page.title());
-                //System.out.println("Current URL: " + page.url());
-
-
                 try {
                     page.waitForSelector(
                             ".srp-jobtuple-wrapper",
@@ -88,7 +83,7 @@ public class JobsScraperService {
 
                         boolean skipJob =
                                 title.toLowerCase()
-                                .contains("java full stack developer");
+                                        .contains("java full stack developer");
 
                         String company =
                                 getTextSafely(job.locator(".comp-name"));
